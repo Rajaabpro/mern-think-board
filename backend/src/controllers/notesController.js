@@ -3,7 +3,7 @@ export async function getNotes(req, res) {
   try {
     const notes = await Note.find();
     res.status(200).json(notes);
-  } catch (error) {
+  } catch (eßrror) {
     res.status(500).json({ message: error.message });
   }
 }
