@@ -1,4 +1,7 @@
 import Note from "../models/Note.js";
+
+
+
 export async function getNotes(req, res) {
   try {
     const notes = await Note.find();
@@ -8,11 +11,18 @@ export async function getNotes(req, res) {
   }
 }
 
-export const createNote = (req, res) => {
-  res.sendStatus(201).send("Note created");
-};
+export async function createNote(req, res) {
+  try {
+    const { title, content } = req.body;
+    const newNote = new Note({ title, content });
+    await newNote.save();
+    res.status(201).json(newNote);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
-export const updateNote = (req, res) => {
+export async function updateNote(req, res) {
   res.sendStatus(200).send("Note updated");
 };
 
