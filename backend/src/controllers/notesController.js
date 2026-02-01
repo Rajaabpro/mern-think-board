@@ -11,6 +11,20 @@ export async function getNotes(req, res) {
   }
 }
 
+export async function getNoteById(req, res) {
+  try {
+    const note = await Note.findById(req.params.id);
+    if (!note) {
+      return res.status(404).json({message: "Note not found"});
+    }
+    res.status(200).json(note);
+  }
+  catch (error) {
+    console.error("Error getting note by id", error);
+    res.status(500).json({message: error.message});
+  }
+}
+
 export async function createNote(req, res) {
   try {
     const { title, content } = req.body;
@@ -37,6 +51,16 @@ export async function updateNote(req, res) {
   }
 };
 
-export const deleteNote = (req, res) => {
-  res.sendStatus(200).send("Note deleted");
+export async function deleteNote(req, res) {
+  try {
+    const deletedNote = await Note.findByIdAndDelete(req.params.id);
+    if (!deletedNote) {
+      return res.status(404).json({message: "Note not found"});
+    }
+    res.status(200).json(deletedNote);
+  }
+  catch (error) {
+    console.error("Error deleting note", error);
+    res.status(500).json({message: error.message});
+  }
 };
