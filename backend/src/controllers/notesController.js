@@ -2,7 +2,7 @@ import Note from "../models/Note.js";
 
 
 
-export async function getNotes(req, res) {
+export async function getNotes(_, res) {
   try {
     const notes = await Note.find();
     res.status(200).json(notes);
